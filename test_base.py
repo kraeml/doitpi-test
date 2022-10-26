@@ -41,21 +41,25 @@ def test_boot_files(host):
     assert file.contains("^do_boot_wait=1")
     assert not file.contains("^do_boot_wait=0")
 
-def test_commands(host):
-    # Boot wait ausgeschaltet
-    assert host.run_test("raspi-config nonint get_boot_wait")
-    assert "1" in host.check_output("raspi-config nonint get_boot_wait")
-    
-    # Locale installiet und auf de_DE gestzt
+@pytest.mark.parametrize("locale", [
+    ("de_DE.utf8"),
+    ("en_GB.utf8"), 
+    ("en_US.utf8"),
+    ("fr_FR.utf8"), 
+    ("nl_NL.utf8")
+])
+def test_locale(host, locale):
     cmd = host.check_output("locale -a")
-    assert "de_DE.utf8" in cmd
-    assert "en_GB.utf8" in cmd
-    assert "en_US.utf8" in cmd
-    assert "fr_FR.utf8" in cmd
-    assert "nl_NL.utf8" in cmd
-    cmd = host.check_output("localectl status")
-    assert "LANG=de_DE.UTF-8" in cmd
-    assert "X11 Layout: de" in cmd
+    assert locale in cmd
+
+@pytest.mark.parametrize("output,cmd",  [
+    ("1", "raspi-config nonint get_boot_wait"),
+    ("LANG=de_DE.UTF-8", "localectl status"),
+    ("X11 Layout: de", "localectl status")
+])
+def test_output_commands(host, output, cmd):
+    assert host.run_test(cmd)
+    assert output in host.check_output(cmd)
 
 def test_services(host):
     # Services eingerichtet
