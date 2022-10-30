@@ -18,7 +18,7 @@ def test_user_commands(host, file_name):
     file = host.file(user.home + "/" + file_name)
     assert file.exists
     assert file.is_file
-    assert file.mode == 0o775
+    assert file.mode == 0o755
 
 def test_udev(host):
     file = host.file("/etc/udev/rules.d/99-platformio-udev.rules")
