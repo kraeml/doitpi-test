@@ -1,17 +1,46 @@
-def test_passwd_file(host):
-    passwd = host.file("/etc/passwd")
-    assert passwd.contains("root")
-    assert passwd.user == "root"
-    assert passwd.group == "root"
-    assert passwd.mode == 0o644
-
 import pytest
+
+@pytest.mark.parametrize("directory", [
+    ("bin"),
+    ("notebooks"),
+    ("workspace"),
+    ("workspace/Blockly-gPIo")
+])
+def test_user_file(host, directory):
+    user = host.user()
+    file = host.file(user.home + "/" + directory)
+    assert file.exists
+    assert file.is_directory
+
+def test_boot_config(host):
+    file = host.file("/boot/config.txt")
+    assert file.exists
+    assert file.is_file
+    assert file.contains("^dtparam=i2c_arm=on$")
+    assert file.contains("^dtparam=i2c_vc=on$")
+
+@pytest.mark.parametrize("serial_interface,return_code", [
+    ("get_i2c", "0"),
+    ("get_spi", "0"),
+    ("get_serial", "0")
+])
+def test_serial(host, serial_interface, return_code):
+    cmd = host.check_output("raspi-config nonint " + serial_interface)
+    assert return_code in cmd
+
+def test_services(host):
+    # Services eingerichtet
+    jupyter = host.service("jupyter")
+    assert jupyter.is_running
+    assert jupyter.is_enabled
+    assert "--notebook-dir" in jupyter.systemd_properties["ExecStart"]
+    assert "--ServerApp.ip=0.0.0.0" in jupyter.systemd_properties["ExecStart"]
 
 @pytest.mark.parametrize("name,version", [
     ("python3-pip", "0"),
     ("python3-venv", "0"),
     ("python3-pigpio", "0"),
-    ("pigpiod", "0"), 
+    ("pigpiod", "0"),
     ("pigpio", "0"),
     ("i2c-tools", "0"),
     ("python3-smbus", "0"),
@@ -21,4 +50,5 @@ import pytest
 def test_packages(host, name, version):
     pkg = host.package(name)
     assert pkg.is_installed
-
+    if not version == "0":
+        assert pkg.version.startswith(version)

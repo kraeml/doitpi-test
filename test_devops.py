@@ -1,21 +1,29 @@
-def test_passwd_file(host):
-    passwd = host.file("/etc/passwd")
-    assert passwd.contains("root")
-    assert passwd.user == "root"
-    assert passwd.group == "root"
-    assert passwd.mode == 0o644
-
 import pytest
+
+# ToDo Docker installiert, enabled und running
+def test_services(host):
+    # Services eingerichtet
+    docker_service = host.service("docker")
+    assert docker_service.is_running
+    assert docker_service.is_enabled
+
+def test_user_docker(host):
+    assert "docker" in host.user().groups
+
+def test_user_file(host):
+    user = host.user()
+    file = host.file(user.home + "/workspace")
+    assert file.exists
+    assert file.is_directory
 
 @pytest.mark.parametrize("name,version", [
     ("screen", "0"),
     ("tree", "0"),
-    ("git", "0"), 
+    ("git", "0"),
     ("vim", "0"),
     ("nmap", "0"),
     ("build-essential", "0"),
     ("ssh-import-id", "0"),
-    ("dphys-swapfile", "20100506"),
     ("tmux", "0"),
     ("ansible", "0"),
     ("yamllint", "0"),
@@ -27,9 +35,11 @@ import pytest
     ("zip", "0"),
     ("lxc", "0"),
     ("lxc-templates", "0"),
-    ("python3-testinfra", "0")
+    ("python3-testinfra", "0"),
+    ("docker-ce", "0")
 ])
 def test_packages(host, name, version):
     pkg = host.package(name)
     assert pkg.is_installed
-
+    if not version == "0":
+        assert pkg.version.startswith(version)

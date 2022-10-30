@@ -43,9 +43,9 @@ def test_boot_files(host):
 
 @pytest.mark.parametrize("locale", [
     ("de_DE.utf8"),
-    ("en_GB.utf8"), 
+    ("en_GB.utf8"),
     ("en_US.utf8"),
-    ("fr_FR.utf8"), 
+    ("fr_FR.utf8"),
     ("nl_NL.utf8")
 ])
 def test_locale(host, locale):
@@ -76,13 +76,13 @@ def test_services(host):
     ("python3", "3"),
     ("screen", "0"),
     ("tree", "0"),
-    ("git", "0"), 
+    ("git", "0"),
     ("vim", "0"),
     ("nmap", "0"),
     ("build-essential", "0"),
     ("rclone", "0"),
     ("ssh-import-id", "0"),
-    ("dphys-swapfile", "20100506"),
+    ("dphys-swapfile", "0"),
     ("etckeeper", "1"),
     ("avahi-utils", "0.8"),
     ("git-flow", "1")
@@ -91,3 +91,5 @@ def test_services(host):
 def test_packages(host, name, version):
     pkg = host.package(name)
     assert pkg.is_installed
+    if not version == "0":
+        assert pkg.version.startswith(version)
