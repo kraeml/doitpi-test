@@ -2,7 +2,7 @@ import pytest
 
 @pytest.mark.parametrize("directory", [
     (".platformio"),
-    (".platformio/venv/bin")
+    (".platformio/pvenv/bin")
 ])
 def test_user_file(host, directory):
     user = host.user()
@@ -11,7 +11,7 @@ def test_user_file(host, directory):
     assert file.is_directory
 
 @pytest.mark.parametrize("file_name", [
-    (".platformio/venv/pio")
+    (".platformio/pvenv/bin/pio")
 ])
 def test_user_commands(host, file_name):
     user = host.user()
