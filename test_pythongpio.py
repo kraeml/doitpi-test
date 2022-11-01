@@ -45,7 +45,10 @@ def test_services(host):
     ("i2c-tools", "0"),
     ("python3-smbus", "0"),
     ("git", "0"),
-    ("virtualenv", "0")
+    ("virtualenv", "0"),
+    ("bluetooth", "0"),
+    ("pi-bluetooth", "0"),
+    ("bluez", "0")
 ])
 def test_packages(host, name, version):
     pkg = host.package(name)
