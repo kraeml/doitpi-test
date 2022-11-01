@@ -5,7 +5,7 @@ import pytest
     ("Getting-Started-with-ESPHome, workspace"),
     ("IOTstack, containers")
 ])
-def test_user_file(host, directory, pre_dir = pre_dir):
+def test_user_file(host, directory, pre_dir):
     user = host.user()
     file = host.file(user.home + "/" + pre_dir+ "/" + directory)
     assert file.exists
