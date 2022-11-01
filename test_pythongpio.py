@@ -28,7 +28,16 @@ def test_serial(host, serial_interface, return_code):
     cmd = host.check_output("raspi-config nonint " + serial_interface)
     assert return_code in cmd
 
-def test_services(host):
+@pytest.mark.parametrize("service_name", [
+    ("bluetooth"),
+])
+def test_services(host, service_name):
+    # Services eingerichtet
+    service = host.service(service_name)
+    assert service.is_running
+    assert service.is_enabled
+
+def test_jupyter(host):
     # Services eingerichtet
     jupyter = host.service("jupyter")
     assert jupyter.is_running
