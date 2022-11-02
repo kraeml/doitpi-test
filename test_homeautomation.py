@@ -13,7 +13,8 @@ def test_user_file(host, directory, pre_dir):
 
 @pytest.mark.parametrize("name,version", [
     ("git", "0"),
-    ("vim", "0")
+    ("vim", "0"),
+    ("mosquitto-clients", "0")
 ])
 def test_packages(host, name, version):
     pkg = host.package(name)
