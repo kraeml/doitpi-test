@@ -16,6 +16,11 @@ def test_user_file(host):
     assert file.exists
     assert file.is_directory
 
+def test_docker-compose_link(host):
+    file = host.file("/usr/bin/docker-compose")
+    assert file.exists
+    assert file.is_symlink
+
 @pytest.mark.parametrize("name,version", [
     ("screen", "0"),
     ("tree", "0"),
