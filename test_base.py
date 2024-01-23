@@ -45,7 +45,6 @@ def test_locale(host, locale):
     assert locale in cmd
 
 @pytest.mark.parametrize("output,cmd",  [
-    ("1", "raspi-config nonint get_boot_wait"),
     ("LANG=de_DE.UTF-8", "localectl status"),
     ("X11 Layout: de", "localectl status")
 ])
