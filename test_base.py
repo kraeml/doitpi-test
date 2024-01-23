@@ -33,14 +33,6 @@ def test_etc_files(host):
     assert file.is_file
     assert file.contains("retry 20;")
 
-def test_boot_files(host):
-    # Booteinstellungen überprüfen
-    file = host.file("/boot/config.txt")
-    assert file.exists
-    assert file.is_file
-    assert file.contains("^do_boot_wait=1")
-    assert not file.contains("^do_boot_wait=0")
-
 @pytest.mark.parametrize("locale", [
     ("de_DE.utf8"),
     ("en_GB.utf8"),

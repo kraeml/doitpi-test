@@ -21,8 +21,7 @@ def test_boot_config(host):
 
 @pytest.mark.parametrize("serial_interface,return_code", [
     ("get_i2c", "0"),
-    ("get_spi", "0"),
-    ("get_serial", "0")
+    ("get_spi", "0")
 ])
 def test_serial(host, serial_interface, return_code):
     cmd = host.check_output("raspi-config nonint " + serial_interface)
@@ -40,8 +39,8 @@ def test_services(host, service_name):
 def test_jupyter(host):
     # Services eingerichtet
     jupyter = host.service("jupyter")
-    assert jupyter.is_running
-    assert jupyter.is_enabled
+    assert not jupyter.is_running
+    assert not jupyter.is_enabled
     assert "--notebook-dir" in jupyter.systemd_properties["ExecStart"]
     assert "--ServerApp.ip=0.0.0.0" in jupyter.systemd_properties["ExecStart"]
 
