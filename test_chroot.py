@@ -28,11 +28,11 @@ def test_user_file(host):
     ("/etc/systemd/system/firstboot.service", "", ROOT_USER.pw_uid)
 ])
 
-def test_user_dir(host, directory, pre_dir):
+def test_user_dir(host, directory, pre_dir, user_uid):
     file = host.file(pre_dir + "/" + directory)
     assert file.exists
     assert file.is_directory
-    assert file.uid == BASE_USER.pw_uid
+    assert file.uid == user_uid
 
 def test_envrc_file(host):
     file = host.file(BASE_USER.pw_dir + "/" + ".borgmatic/.envrc")
