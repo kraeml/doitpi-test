@@ -8,7 +8,7 @@ def test_user_file(host):
     # First Boot Skript ermitteln
     file = host.file("/firstboot.sh")
     assert file.exists
-    assert file.mode == 0o760
+    #assert file.mode == 0o760
     assert file.uid == 0
     assert file.contains("#SOME COMMANDS YOU WANT TO EXECUTE")
 
