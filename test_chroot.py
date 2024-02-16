@@ -9,7 +9,7 @@ def test_user_file(host):
     # Benutzerverzeichnis ermitteln
     file = host.file("/firstboot.sh")
     assert file.exists
-    assert file.is_executable
+    assert file.mode == 744
     assert file.is_uid == 0
     assert file.contains("#SOME COMMANDS YOU WANT TO EXECUTE")
 
