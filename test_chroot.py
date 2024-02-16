@@ -31,5 +31,8 @@ def test_user_file(host, directory, pre_dir):
 
 def test_envrc_file(host):
     file = host.file(BASE_USER.pw_dir + "/" + ".borgmatic/.envrc")
+    assert file.exists
+    assert file.contains("layout pyenv 3.12.2")
+    assert file.uid == BASE_USER.pw_uid
 
     
