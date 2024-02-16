@@ -20,7 +20,7 @@ def test_user_file(host):
 
 @pytest.mark.parametrize("directory, pre_dir", [
     ("bin", "/home/pi"),
-    ("notebooks", "/home/pi"),
+    (".config/codeserver", "/home/pi"),
     (".borgmatic", "/home/pi")
 ])
 
