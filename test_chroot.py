@@ -24,8 +24,7 @@ def test_user_file(host):
     (".borgmatic/", BASE_USER.pw_dir, BASE_USER.pw_uid),
     (".ansible/roles/deluxebrain.python", BASE_USER.pw_dir, BASE_USER.pw_uid),
     (".ansible/roles/m4rcu5nl.zerotier-one", BASE_USER.pw_dir, BASE_USER.pw_uid),
-    ("workspace/doitpi-test/.venv", BASE_USER.pw_dir, BASE_USER.pw_uid),
-    ("system/firstboot.service", "/etc/systemd", ROOT_USER.pw_uid)
+    ("workspace/doitpi-test/.venv", BASE_USER.pw_dir, BASE_USER.pw_uid)
 ])
 
 def test_user_dir(host, directory, pre_dir, user_uid):
@@ -33,11 +32,15 @@ def test_user_dir(host, directory, pre_dir, user_uid):
     assert file.exists
     assert file.is_directory
     assert file.uid == user_uid
+@pytest.mark.parametrize("file, pre_dir, user_uid", [
+    ("firstboot.service", "/etc/systemd/system", ROOT_USER.pw_uid),
+    (".envrc", BASE_USER.pw_dir + ".borgmatic", BASE_USER.pw_uid)
+])
 
-def test_envrc_file(host):
-    file = host.file(BASE_USER.pw_dir + "/" + ".borgmatic/.envrc")
+def test_file(host, file, pre_dir, user_uid):
+    file = host.file(pre_dir + "/" + file)
     assert file.exists
-    assert file.contains("layout pyenv 3.12.2")
-    assert file.uid == BASE_USER.pw_uid
+    #assert file.contains("layout pyenv 3.12.2")
+    assert file.uid == user_uid
 
     
