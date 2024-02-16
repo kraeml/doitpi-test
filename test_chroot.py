@@ -14,7 +14,7 @@ def test_user_file(host):
     file = host.file("/home/pi/workspace/doitpi-test/.venv")
     assert file.exists
     assert file.is_directory
-    assert file.uid == 1000
+    assert file.uid == BASE_USER.pw_gid
 
 @pytest.mark.parametrize("directory, pre_dir", [
     ("bin", BASE_USER.pw_dir),
@@ -28,5 +28,8 @@ def test_user_file(host, directory, pre_dir):
     assert file.exists
     assert file.is_directory
     assert file.uid == BASE_USER.pw_uid
+
+def test_envrc_file(host):
+    file = host.file(BASE_USER.pw_dir + "/" + ".borgmatic/.envrc")
 
     
