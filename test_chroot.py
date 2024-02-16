@@ -10,7 +10,7 @@ def test_user_file(host):
     file = host.file("/firstboot.sh")
     assert file.exists
     assert file.mode == 0o744
-    assert file.is_uid == 0
+    assert file.uid == 0
     assert file.contains("#SOME COMMANDS YOU WANT TO EXECUTE")
 
     
