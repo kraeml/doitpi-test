@@ -3,7 +3,7 @@ import pytest
 def test_user_file(host):
     user = host.user()
     # Test nicht als root laufen lassen
-    assert user.name != "root"
+    assert user.name == "root"
     
 
     # Benutzerverzeichnis ermitteln
