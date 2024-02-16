@@ -34,7 +34,7 @@ def test_user_dir(host, directory, pre_dir, user_uid):
     assert file.uid == user_uid
 @pytest.mark.parametrize("file, pre_dir, user_uid", [
     ("firstboot.service", "/etc/systemd/system", ROOT_USER.pw_uid),
-    (".envrc", BASE_USER.pw_dir + ".borgmatic", BASE_USER.pw_uid)
+    (".envrc", BASE_USER.pw_dir + "/.borgmatic", BASE_USER.pw_uid)
 ])
 
 def test_file(host, file, pre_dir, user_uid):
