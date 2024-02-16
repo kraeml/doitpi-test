@@ -12,7 +12,7 @@ def test_user_file(host):
     assert file.uid == 0
     assert file.contains("#SOME COMMANDS YOU WANT TO EXECUTE")
 
-    file = host.file("/home/pi/workspace/doitpi-test/.venv")
+    file = host.file(BASE_USER.pw_dir + "/workspace/doitpi-test/.venv")
     assert file.exists
     assert file.is_directory
     assert file.uid == BASE_USER.pw_gid
