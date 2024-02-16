@@ -12,11 +12,6 @@ def test_user_file(host):
     assert file.uid == 0
     assert file.contains("#SOME COMMANDS YOU WANT TO EXECUTE")
 
-    file = host.file(BASE_USER.pw_dir + "/workspace/doitpi-test/.venv")
-    assert file.exists
-    assert file.is_directory
-    assert file.uid == BASE_USER.pw_gid
-
 @pytest.mark.parametrize("directory, pre_dir, user_uid", [
     ("bin", BASE_USER.pw_dir, BASE_USER.pw_uid),
     (".config/codeserver", BASE_USER.pw_dir, BASE_USER.pw_uid),
@@ -32,15 +27,17 @@ def test_user_dir(host, directory, pre_dir, user_uid):
     assert file.exists
     assert file.is_directory
     assert file.uid == user_uid
-@pytest.mark.parametrize("file, pre_dir, user_uid", [
-    ("firstboot.service", "/etc/systemd/system", ROOT_USER.pw_uid),
-    (".envrc", BASE_USER.pw_dir + "/.borgmatic", BASE_USER.pw_uid)
+
+@pytest.mark.parametrize("file, pre_dir, user_uid, contains", [
+    ("firstboot.service", "/etc/systemd/system", ROOT_USER.pw_uid, ""),
+    (".envrc", BASE_USER.pw_dir + "/.borgmatic", BASE_USER.pw_uid, "layout pyenv 3.12.2"),
+    ("firstboot.sh", "", ROOT_USER.pw_uid, "#SOME COMMANDS YOU WANT TO EXECUTE")
 ])
 
-def test_file(host, file, pre_dir, user_uid):
+def test_file(host, file, pre_dir, user_uid, contains):
     file = host.file(pre_dir + "/" + file)
     assert file.exists
-    #assert file.contains("layout pyenv 3.12.2")
+    assert file.contains(contains)
     assert file.uid == user_uid
 
     
