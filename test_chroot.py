@@ -19,7 +19,7 @@ def test_user_file(host):
     assert file.uid == 1000
 
 @pytest.mark.parametrize("directory, pre_dir", [
-    ("bin", "/home/pi),
+    ("bin", "/home/pi"),
     ("notebooks", "/home/pi"),
     (".borgmatic", "/home/pi")
 ])
