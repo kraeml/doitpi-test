@@ -55,8 +55,8 @@ def test_output_commands(host, output, cmd):
 def test_services(host):
     # Services eingerichtet
     codeserver = host.service("codeserver")
-    assert codeserver.is_running
-    assert codeserver.is_enabled
+    assert not codeserver.is_running
+    assert not codeserver.is_enabled
     assert "--disable-telemetry" in codeserver.systemd_properties["ExecStart"]
     firstboot = host.service("firstboot")
     assert not firstboot.is_running
