@@ -20,7 +20,9 @@ def test_user_file(host):
     ("bin", BASE_USER.pw_dir),
     (".config/codeserver", BASE_USER.pw_dir),
     ("workspace", BASE_USER.pw_dir),
-    (".borgmatic/", BASE_USER.pw_dir)
+    (".borgmatic/", BASE_USER.pw_dir),
+    (".ansible/roles/deluxebrain.python", BASE_USER.pw_dir),
+    (".ansible/roles/m4rcu5nl.zerotier-one", BASE_USER.pw_dir)
 ])
 
 def test_user_file(host, directory, pre_dir):
