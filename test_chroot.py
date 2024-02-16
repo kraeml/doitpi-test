@@ -14,7 +14,7 @@ def test_user_file(host):
 
 @pytest.mark.parametrize("directory, pre_dir, user_uid", [
     ("bin", BASE_USER.pw_dir, BASE_USER.pw_uid),
-    (".config/codeserver", BASE_USER.pw_dir, BASE_USER.pw_uid),
+    (".config/code-server", BASE_USER.pw_dir, BASE_USER.pw_uid),
     ("workspace", BASE_USER.pw_dir, BASE_USER.pw_uid),
     (".borgmatic/", BASE_USER.pw_dir, BASE_USER.pw_uid),
     (".ansible/roles/deluxebrain.python", BASE_USER.pw_dir, BASE_USER.pw_uid),
@@ -29,7 +29,7 @@ def test_user_dir(host, directory, pre_dir, user_uid):
     assert file.uid == user_uid
 
 @pytest.mark.parametrize("file, pre_dir, user_uid, contains", [
-    ("firstboot.service", "/etc/systemd/system", ROOT_USER.pw_uid, "#Hallo"),
+    ("firstboot.service", "/etc/systemd/system", ROOT_USER.pw_uid, "ExecStart=/firstboot.sh"),
     (".envrc", BASE_USER.pw_dir + "/.borgmatic", BASE_USER.pw_uid, "layout pyenv 3.12.2"),
     ("firstboot.sh", "", ROOT_USER.pw_uid, "#SOME COMMANDS YOU WANT TO EXECUTE")
 ])
