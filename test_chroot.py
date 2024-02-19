@@ -17,6 +17,7 @@ def test_user_file(host):
     (".config/code-server", BASE_USER.pw_dir, BASE_USER.pw_uid),
     ("workspace", BASE_USER.pw_dir, BASE_USER.pw_uid),
     (".borgmatic/", BASE_USER.pw_dir, BASE_USER.pw_uid),
+    (".borgmatic/backup", BASE_USER.pw_dir, BASE_USER.pw_uid),
     (".ansible/roles/deluxebrain.python", BASE_USER.pw_dir, BASE_USER.pw_uid),
     (".ansible/roles/m4rcu5nl.zerotier-one", BASE_USER.pw_dir, BASE_USER.pw_uid),
     ("workspace/doitpi-test/.venv", BASE_USER.pw_dir, BASE_USER.pw_uid)
