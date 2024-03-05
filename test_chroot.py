@@ -12,7 +12,7 @@ def test_user_file(host, file, pre_dir, user_uid, contains):
     # First Boot Skript ermitteln
     filesystem = host.file("/filesystem")
     if filesystem.exists:
-        file = host.file("/firstboot.sh")
+        file = host.file(pre_dir + "/" + file)
         assert file.exists
         #assert file.mode == 0o764
         assert file.uid == user_uid
