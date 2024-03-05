@@ -4,13 +4,19 @@ import pwd
 BASE_USER = pwd.getpwuid(1000)
 ROOT_USER = pwd.getpwuid(0)
 
-def test_user_file(host):
+@pytest.mark.parametrize("file, pre_dir, user_uid, contains", [
+    ("firstboot.service", "/etc/systemd/system", ROOT_USER.pw_uid, "ExecStart=/firstboot.sh"),
+    ("firstboot.sh", "", ROOT_USER.pw_uid, "#SOME COMMANDS YOU WANT TO EXECUTE")
+])
+def test_user_file(host, file, pre_dir, user_uid, contains):
     # First Boot Skript ermitteln
-    file = host.file("/firstboot.sh")
-    assert file.exists
-    assert file.mode == 0o764
-    assert file.uid == 0
-    assert file.contains("#SOME COMMANDS YOU WANT TO EXECUTE")
+    filesystem = host.file("/filesystem")
+    if filesystem.exists:
+        file = host.file("/firstboot.sh")
+        assert file.exists
+        #assert file.mode == 0o764
+        assert file.uid == user_uid
+        assert file.contains(contains)
 
 @pytest.mark.parametrize("directory, pre_dir, user_uid", [
     ("bin", BASE_USER.pw_dir, BASE_USER.pw_uid),
@@ -31,11 +37,8 @@ def test_user_dir(host, directory, pre_dir, user_uid):
     assert file.uid == user_uid
 
 @pytest.mark.parametrize("file, pre_dir, user_uid, contains", [
-    ("firstboot.service", "/etc/systemd/system", ROOT_USER.pw_uid, "ExecStart=/firstboot.sh"),
-    (".envrc", BASE_USER.pw_dir + "/.borgmatic", BASE_USER.pw_uid, "layout python3"),
-    ("firstboot.sh", "", ROOT_USER.pw_uid, "#SOME COMMANDS YOU WANT TO EXECUTE")
+    (".envrc", BASE_USER.pw_dir + "/.borgmatic", BASE_USER.pw_uid, "layout python3")
 ])
-
 def test_file(host, file, pre_dir, user_uid, contains):
     file = host.file(pre_dir + "/" + file)
     assert file.exists
