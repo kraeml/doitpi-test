@@ -58,9 +58,9 @@ def test_services(host):
     assert not codeserver.is_running
     assert not codeserver.is_enabled
     assert "--disable-telemetry" in codeserver.systemd_properties["ExecStart"]
-    firstboot = host.service("firstboot")
-    assert not firstboot.is_running
-    assert not firstboot.is_enabled
+    doitpi_firstboot = host.service("doitpi_firstboot")
+    assert not doitpi_firstboot.is_running
+    assert not doitpi_firstboot.is_enabled
 
 # Pakete installiert
 @pytest.mark.parametrize("name,version", [
