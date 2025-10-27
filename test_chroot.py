@@ -21,6 +21,7 @@ def test_user_file(host, file, pre_dir, user_uid, contains):
 @pytest.mark.parametrize("directory, pre_dir, user_uid", [
     ("bin", BASE_USER.pw_dir, BASE_USER.pw_uid),
     (".config/code-server", BASE_USER.pw_dir, BASE_USER.pw_uid),
+    (".firstrun", BASE_USER.pw_dir, BASE_USER.pw_uid),
     ("workspace", BASE_USER.pw_dir, BASE_USER.pw_uid),
     (".borgmatic/", BASE_USER.pw_dir, BASE_USER.pw_uid),
     (".pyenv/", BASE_USER.pw_dir, BASE_USER.pw_uid),
