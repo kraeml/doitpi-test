@@ -6,7 +6,7 @@ ROOT_USER = pwd.getpwuid(0)
 
 @pytest.mark.parametrize("file, pre_dir, user_uid, contains", [
     ("doitpi_firstboot.service", "/etc/systemd/system", ROOT_USER.pw_uid, "ExecStart=/doitpi_firstboot.sh"),
-    ("doitpi_firstboot.sh", "", ROOT_USER.pw_uid, "#SOME COMMANDS YOU WANT TO EXECUTE")
+    ("doitpi_firstboot.sh", "", ROOT_USER.pw_uid, "# doitpi_firstboot.sh – Post-installation script for DoitPi")
 ])
 def test_user_file(host, file, pre_dir, user_uid, contains):
     # First Boot Skript ermitteln
