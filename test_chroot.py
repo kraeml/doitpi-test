@@ -38,7 +38,7 @@ def test_user_dir(host, directory, pre_dir, user_uid):
     assert file.uid == user_uid
 
 @pytest.mark.parametrize("file, pre_dir, user_uid, contains", [
-    (".envrc", BASE_USER.pw_dir + "/.borgmatic", BASE_USER.pw_uid, "layout python3"),
+    (".envrc", BASE_USER.pw_dir + "/.borgmatic", BASE_USER.pw_uid, "layout python /usr/bin/python3"),
     ("sshd_config", "/etc/ssh/", ROOT_USER.pw_uid, "IPQoS throughput")
 ])
 def test_file(host, file, pre_dir, user_uid, contains):
